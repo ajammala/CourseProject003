@@ -37,20 +37,10 @@ The 'run_analysis.R' script is used for performing the data cleanup and the anal
 * The letters X, Y and Z were replaced with more meaningful phrases 'Xaxis', 'Yaxis' and 'Zaxis'.<br />
 * The end of the field name indicates whether a field is a mean or a standard deviation measurement. <br />
 
-	for(i in 1:length(subsetFields))
-	{
 	temp = unlist(strsplit(subsetFields[i], "-"))
-	if(length(temp) == 2)
-	{
-	subsetFields[i] = paste0(temp[1], temp[2])
-	}
-	else if(length(temp) > 2)
-	{
 	subsetFields[i] = paste0(temp[1], temp[3], "axis", temp[2])
-	}
 	subsetFields[i] = sub("mean\\(\\)", "Mean", subsetFields[i])
 	subsetFields[i] = sub("std\\(\\)", "Stdev", subsetFields[i])
-	}
 
 **Step 5** - Create a second, independent tidy data set with the average of each variable for each activity and each subject. Save the resultant data as a text file.
 	
