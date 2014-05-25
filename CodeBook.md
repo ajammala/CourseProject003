@@ -1,5 +1,4 @@
 #Coursera - Getting and Cleaning Data Course Project
-##About
 ####Coursera - Getting and Cleaning Data Course Project Submission <br />
 ####File Name: CodeBook.md <br />
 Name: Adi J <br />
