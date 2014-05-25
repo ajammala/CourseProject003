@@ -32,18 +32,19 @@ The 'run_analysis.R' script is used for performing the data cleanup and the anal
 
 	subsetData <- merge(subsetData, activityData, by = "activityID")
 
-**Step 4** - Rename the field names in the extracted subset. <br />
+**Step 4** - Rename the field names in the extracted subset.
 
-* The field names were named with Camel Case to improve readability. 
+* The field names were named with Camel Case to improve readability.
 * The letters X, Y and Z were replaced with more meaningful phrases 'Xaxis', 'Yaxis' and 'Zaxis'.
-* The end of the field name indicates whether a field is a mean or a standard deviation measurement. <br />
+* The end of the field name indicates whether a field is a mean or a standard deviation measurement.
 
+At the end of step 4, the script updates the subset with new variable names.<br />
+	
 	temp = unlist(strsplit(subsetFields[i], "-"))
-	subsetFields[i] = paste0(temp[1], temp[3], "axis", temp[2])
 	subsetFields[i] = sub("mean\\(\\)", "Mean", subsetFields[i])
-	subsetFields[i] = sub("std\\(\\)", "Stdev", subsetFields[i])
+    subsetFields[i] = sub("std\\(\\)", "Stdev", subsetFields[i])
 
-**Step 5** - Create a second, independent tidy data set with the average of each variable for each activity and each subject. Save the resultant data as a text file.<br />
+**Step 5** - Create a second, independent tidy data set with the average of each variable for each activity and each subject. Save the resultant data as a text file. <br />
 	
 	finalDataSet <- aggregate(subsetData[, 4:69], list(subsetData$subjectID, subsetData$activityID, subsetData$activityName), mean) 
 	finalDataSet <- finalDataSet[ order(finalDataSet[,1], finalDataSet[,2]), ]
