@@ -24,17 +24,18 @@ The 'run_analysis.R' script is used for performing the data cleanup and the anal
 	yMergedData <- rbind(read.table(trainingDataFiles[3]), read.table(testDataFiles[3]))
 	allMergedData <- cbind(subjectMergedData, yMergedData, xMergedData)
 
-**Step 2** - Extract a subset of the input data. The extracted data is the measurements on the mean and standard deviation for each measurement. For this purpose only the fields containing the words *mean()* and *std()* were filtered.<br />
+**Step 2** - Extract a subset of the input data. The extracted data is the measurements on the mean and standard deviation for each measurement. For this purpose only the fields containing the words *mean()* and *std()* were filtered. At the end of step 2, the script creates a subset of the merged data set with subject, activity information and the mean and standard deviation measurements.<br />
 
 	subsetFields <- c("subjectID", "activityID", as.vector(allFieldNames[grep("mean\\(\\)|std\\(\\)", allFieldNames)]))
 
-**Step 3** - Merge the subset with the activity labels data set to add a column that provides a meaningful description of the activity being performed. 
+**Step 3** - Merge the subset with the activity labels data set to add a column that provides a meaningful description of the activity being performed. At the end of step 3, the script creates a data set with the subject information, descriptive activity information and mean and standard deviation measurements.<br />
 
 	subsetData <- merge(subsetData, activityData, by = "activityID")
 
 **Step 4** - Rename the field names in the extracted subset. <br />
-* The field names were named with Camel Case to improve readability.<br /> 
-* The letters X, Y and Z were replaced with more meaningful phrases 'Xaxis', 'Yaxis' and 'Zaxis'.<br />
+
+* The field names were named with Camel Case to improve readability. 
+* The letters X, Y and Z were replaced with more meaningful phrases 'Xaxis', 'Yaxis' and 'Zaxis'.
 * The end of the field name indicates whether a field is a mean or a standard deviation measurement. <br />
 
 	temp = unlist(strsplit(subsetFields[i], "-"))
@@ -42,7 +43,7 @@ The 'run_analysis.R' script is used for performing the data cleanup and the anal
 	subsetFields[i] = sub("mean\\(\\)", "Mean", subsetFields[i])
 	subsetFields[i] = sub("std\\(\\)", "Stdev", subsetFields[i])
 
-**Step 5** - Create a second, independent tidy data set with the average of each variable for each activity and each subject. Save the resultant data as a text file.
+**Step 5** - Create a second, independent tidy data set with the average of each variable for each activity and each subject. Save the resultant data as a text file.<br />
 	
 	finalDataSet <- aggregate(subsetData[, 4:69], list(subsetData$subjectID, subsetData$activityID, subsetData$activityName), mean) 
 	finalDataSet <- finalDataSet[ order(finalDataSet[,1], finalDataSet[,2]), ]
